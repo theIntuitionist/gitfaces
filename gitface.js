@@ -14,7 +14,7 @@
       });
       // the image
       div.append($("<img/>",{
-        src: "http://www.gravatar.com/avatar/"+contributor.gravatar_id+"?s=300"
+        src: "http://www.gravatar.com/avatar/"+contributor.gravatar_id+"?s=512"
       }));
       // the number of contributions
       div.append($("<span/>",{ className: "contributions", text: contributor.contributions }));
@@ -23,6 +23,7 @@
       // throw it in
       gitfaces.append(div);
     });
+    resizeImages();
   }
   
   function loadEarl() {
@@ -31,6 +32,12 @@
       repo = match[2];
       
     $.getJSON(baseUrl+user+"/"+repo+"/contributors?callback=?").success(process);
+  }
+  
+  function resizeImages() {
+    newSize = $(window).width() / 4;
+    $(".gitface > img").height(newSize).width(newSize);
+    $(".gitface").css({height: newSize, width: newSize});
   }
   
   $(document).ready(function(){
@@ -59,7 +66,9 @@
     });
     
     // address handling
-    $.address.change(loadEarl); 
+    $.address.change(loadEarl);
+    
+    $(window).resize(resizeImages);
   });
   
 })();
