@@ -2,9 +2,52 @@
   
   var gitfaces,
     baseUrl = "http://github.com/api/v2/json/repos/show/";
+
+  function totalCommits(contributors) {
+    var out = 0;
+
+    $.each(contributors, function(index, contributor) {
+      out += contributor.contributions
+    });
+    return out;
+  }
+
+  function process(response) {
+    gitfaces.empty();
+    var totalCommitCount = totalCommits(response.contributors);
+    var biggestCommitCount = response.contributors[0].contributions;
+
+    $.each(response.contributors, function(index, contributor) {
+      var div = $("<a/>",{
+        className: "gitface",
+        href: "https://github.com/"+contributor.login,
+        target: "_blank"
+      });
+      
+      // the bar
+      var imageUrl = "http://www.gravatar.com/avatar/"+contributor.gravatar_id+"?s=30";
+
+      var bar = $('<div/>', {
+        className: 'bar',
+        style: "background-image: url('" + imageUrl + "'); " + 
+               "height: " + 500 * contributor.contributions/biggestCommitCount + 'px'
+      });
+      div.append(bar);
+
+      // // the number of contributions
+      // div.append($("<span/>",{ className: "contributions", text: contributor.contributions }));
+
+      // // the username
+      // div.append($("<span/>",{ className: "login", text: contributor.login }));
+
+      // throw it in
+      gitfaces.append(div);
+    });
+    gitfaces.css({width: response.contributors.length * 30});
+  }
   
   // process the github response
-  function process(response) {
+  function wasProcess(response) {
     gitfaces.empty();
     $.each(response.contributors, function(index, contributor) {
       var div = $("<a/>",{

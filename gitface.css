@@ -8,6 +8,20 @@ body {
 
 #gitfaces {
   margin-top:75px;
+  position:relative;
+  height: 500px;
+}
+
+#gitfaces a {
+  position: relative;
+  height: 100%;
+}
+
+#gitfaces div {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 30px;
 }
 
 .gitface {
@@ -16,8 +30,8 @@ body {
   position:relative;
   text-decoration:none;
   border:0;
-  width:300px;
-  height:300px;
+  width:30px;
+  vertical-align; bottom;
 }
 
 .gitface span.contributions {
